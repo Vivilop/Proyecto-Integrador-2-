@@ -1,0 +1,48 @@
+import curses
+
+def main(stdscr):
+    # Configuración de la terminal
+    curses.curs_set(0)  # Oculta el cursor
+    stdscr.timeout(100)  # Tiempo de espera de entrada en milisegundos
+
+    # Dimensiones del laberinto
+    height, width = stdscr.getmaxyx()
+
+    # Posición inicial del jugador
+    player_pos = [height // 2, width // 2]
+
+    # Dibuja el laberinto
+    maze = [
+        "#######################",
+        "#                     #",
+        "#        #####        #",
+        "#        #   #        #",
+        "#        #   #        #",
+        "#        #   #        #",
+        "#        #   #        #",
+        "#        #   #        #",
+        "#        #   #        #",
+        "#        #   #        #",
+        "#        #   #        #",
+        "#        #####        #",
+        "#                     #",
+        "#######################",
+    ]
+
+    # Bucle principal
+    while True:
+        # Captura la entrada del usuario
+        key = stdscr.getch()
+
+        # Borra al jugador en su posición actual
+        stdscr.addch(player_pos[0], player_pos[1], ' ')
+
+        # Mueve al jugador según la tecla presionada
+        if key == curses.KEY_UP and maze[player_pos[0] - 1][player_pos[1]] == ' ':
+            player_pos[0] -= 1
+
+        # Dibuja al jugador en su nueva posición
+        stdscr.addch(player_pos[0], player_pos[1], '*')
+
+        # Refresca la pantalla
+        stdscr.refresh
